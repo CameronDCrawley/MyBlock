@@ -1,6 +1,6 @@
 // load the things we need
 let mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs')
+let bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our user model
 let userSchema = mongoose.Schema({
@@ -41,3 +41,4 @@ userSchema.methods.validPassword = function(password) {
 };
 
 // create the model for users and expose it to our app
+module.exports = mongoose.model('User', userSchema);

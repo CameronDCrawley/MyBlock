@@ -6,4 +6,4 @@ let VolunteerSchema = new mongoose.Schema({
 
 });
 
-module.exports= mongoose.model('IconicMoment',momentsSchema,'iconicMoments')
+module.exports= mongoose.model('Volunteer',momentsSchema,'iconicMoments')

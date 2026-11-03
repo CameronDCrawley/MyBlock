@@ -3,25 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
   <title>Demo Day Main Page</title>
 </head>
 <body>
 <h1>Events:  </h1> 
-  <!-- loop through events database -->
-    <form action="/login" method="post">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
 
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
+  <!-- loop through events database -->
+    <div class="min-h-screen flex-items-center justify-center bg-gray-100"></div>
+    <!-- <form action="/login" method="POST" class="w-full max-w-sm bg-white p-8 rounded x1 shadow-lg space-y-4"> -->
+      <form action="/login" method="POST"
+    class="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl shadow-lg p-6 text-white">
+
+      <h1 class="text-2xl font-bold text-center"> Name</h1>
+      <label for="">
+      <input type="text" name="text" placeholder="Name" class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <!-- class="w-full border border-gray-300 rounded-lg px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"> -->
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Submit</button>
+            </label>
+      <h2 class="text-2x1 font-bold text-center"> Experience</h2>
+            <input type="text" name="text" placeholder="Name" class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+      <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Submit</button>
+      <h2 class="text-2xl font-bold text-center"> Zipcode</h2>
+           <input type="text" name="text" placeholder="Name" class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+      <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Submit</button>
     </form>
-<button>Sign Up</button>
-  
+    </div>
+  </div>
 </body>
 </html>
