@@ -40,12 +40,26 @@ app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
 app.set('view engine', 'ejs'); // set up ejs for templating
+app.locals.mapsKey = process.env.GOOGLE_MAPS_KEY;
 app.use((req,res,next)=>{
     next()
 })
 
 app.get('/',isLoggedIn, (req,res)=>{
     res.render('index',{user:req.user})
+})
+
+app.get('/api/places',(req,res) => {
+    const places = (
+        [
+           { name: "Queens Central Library", lat:40.7078, lng: -73.7946}
+        ]
+    )
+
+
+    res.render('index', {
+        mapsKey:process.env.GOOGLE_MAPS_KEY,places
+    })
 })
 
 

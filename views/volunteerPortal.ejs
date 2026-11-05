@@ -7,36 +7,40 @@
 </head>
 <body>
   <h1> Volunteer</h1>
+  <a href="/" class="inline-block rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue700">
+    Home
+  </a>
+  <div class="text-2xl font-bold text-center">
   <form action="/volunteerInfo" method="post">
     <ul>
 <li>
     <label for="addName">Volunteer Name:</label>
-    <input type="text" id="addName" name="volunteerName" placeholder="Name Here" required>
+    <input class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addName" name="volunteerName" placeholder="Name Here" required>
     </li>
 
        <li>
     <label for="addTitle">Job Title:</label>
-    <input type="text" id="addTitle" name="title" placeholder="What do you do ?" >
+    <input class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addTitle" name="title" placeholder="What do you do ?" >
     </li>
         
 
     <li>
 
     <label for="addInterests">Interests</label>
-    <input type="text" id="addInterests" name="interests" placeholder="Hobbies" >
+    <input class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addInterests" name="interests" placeholder="Hobbies" >
     </li>
 
     <li>
 
     <label for="addSkills">Skills:</label>
-    <input type="text" id="addSkills" name="skills" placeholder="skills" >
+    <input class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addSkills" name="skills" placeholder="skills" >
     </li>
-<li>
     <li>
     <label for="addDescription">Description:</label>
-    <input type="text" id="addDescription" name="description" placeholder="ANYTHING YOU WOULD LIKE US TO KNOW" required>
-    
-    </li>
-
+    <input class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addDescription" name="description" placeholder="ANYTHING YOU WOULD LIKE US TO KNOW" required>
+        </li>
+    <button type="submit" class="block-16"> Submit</button>
+      </form>
+      </div>
 </body>
 </html>
