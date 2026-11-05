@@ -57,12 +57,20 @@ app.get('/',isLoggedIn, (req,res)=>{
         // LOGIN ===============================
         // show the login form
         app.get('/login', function(req, res) {
-            res.render('login.ejs', { message: req.flash('loginMessage') });
+            res.render('login.ejs', { 'volunteerMessage':req.flash ('volunteerLoginMessage'),
+            'organizationMessage':req.flash('organizationLoginMessage')  
+            });
         });
 
         // process the login form
-        app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/', // redirect to the secure profile section
+        app.post('/login/volunteer', passport.authenticate('volunteer-login', {
+            successRedirect : '/volunteer', // redirect to the secure profile section
+            failureRedirect : '/login', // redirect back to the signup page if there is an error
+            failureFlash : true // allow flash messages
+        }));
+
+        app.post('/login/organization', passport.authenticate('organization-login', {
+            successRedirect : '/organization', // redirect to the secure profile section
             failureRedirect : '/login', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
@@ -79,6 +87,14 @@ app.get('/',isLoggedIn, (req,res)=>{
             failureRedirect : '/signup', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
+
+        app.get('/organization', function(req, res) {
+            res.render('organizationPortal.ejs', { message: req.flash('signupMessage') });
+        });
+
+        app.get('/volunteer', function(req, res) {
+            res.render('volunteerPortal.ejs', { message: req.flash('signupMessage') });
+        });
 
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
