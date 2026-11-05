@@ -48,35 +48,33 @@ Installation & Local Setup
 
 Clone the repository:
 
-git clone https://github.com/your-username/my-block.git
-cd my-block
+` git clone https://github.com/your-username/my-block.git`
+`cd my-block`
 
 
 
 ## Install dependencies:
 
-npm install
+`npm install`
 
 
 
 Set up Environment Variables:
 Create a .env file in the root directory and add your required configuration variables:
 
-PORT=3000
-SESSION_SECRET=your_secret_key
+`PORT=3000`
+`SESSION_SECRET=your_secret_key`
 # Add your database URI or geolocation API keys here
-
-
 
 Build Tailwind CSS (if applicable):
 
-npm run build:css
+`npm run build:css`
 
 
 
 ## Start the Application:
 
-npm start
+`npm start`
 
 
 
