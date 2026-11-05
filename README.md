@@ -64,6 +64,7 @@ Set up Environment Variables:
 Create a .env file in the root directory and add your required configuration variables:
 
 `PORT=3000`
+
 `SESSION_SECRET=your_secret_key`
 # Add your database URI or geolocation API keys here
 
