@@ -3,43 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
   <title>Volunteer Portal</title>
 </head>
-<body>
-  <h1> Volunteer</h1>
-  <a href="/" class="inline-block rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue700">
+<body class="bg-amber-100">
+   <a href="/" class="inline-block rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue700">
     Home
   </a>
+  
+  <h1 class="text-2xl font-bold text-center my-6"> Volunteer</h1>
+ 
   <div class="text-2xl font-bold text-center">
-  <form action="/volunteerInfo" method="post">
+  <form action="/volunteerInfo" method="post" class="space-y-4 border-black-300 rounded-xl p-6 bg-white shadow">
     <ul>
 <li>
-    <label for="addName">Volunteer Name:</label>
-    <input class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addName" name="volunteerName" placeholder="Name Here" required>
+    <label for="addName" class="block font-semibold">Volunteer Name:</label>
+    <input class="mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addName" name="volunteerName" placeholder="Name Here" required>
     </li>
 
        <li>
-    <label for="addTitle">Job Title:</label>
-    <input class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addTitle" name="title" placeholder="What do you do ?" >
+    <label for="addTitle"class="block font-semibold">Job Title:</label>
+    <input class="mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addTitle" name="title" placeholder="What do you do ?" >
     </li>
         
 
     <li>
 
-    <label for="addInterests">Interests</label>
-    <input class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addInterests" name="interests" placeholder="Hobbies" >
+    <label for="addInterests"class="block font-semibold">Interests</label>
+    <input class="mt-1 w-full max-w-md rounded-md px-3 py-2 bg-white/80 text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addInterests" name="interests" placeholder="Hobbies" >
     </li>
 
     <li>
 
-    <label for="addSkills">Skills:</label>
-    <input class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addSkills" name="skills" placeholder="skills" >
+    <label for="addSkills"class="block font-semibold">Skills:</label>
+    <input class="mt-1 w-full  max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addSkills" name="skills" placeholder="skills" >
     </li>
     <li>
-    <label for="addDescription">Description:</label>
-    <input class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addDescription" name="description" placeholder="ANYTHING YOU WOULD LIKE US TO KNOW" required>
+    <label for="addDescription"class="block font-semibold">Description:</label>
+    <input class="mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text" id="addDescription" name="description" placeholder="Tell me about yourself" required>
         </li>
-    <button type="submit" class="block-16"> Submit</button>
+    <button type="submit" class="inline-block rounded-lg bg-gray-600 px-4 py-2 font-semibold text-white hover:bg-blue700"> Submit</button>
       </form>
       </div>
 </body>

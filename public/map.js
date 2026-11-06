@@ -15,7 +15,7 @@ streetViewControl:false,
 
     places.forEach(p => {
       const marker = new google.maps.Marker( {
-        position:{lat:p.lat, lng:plug},
+        position:{lat:p.lat, lng:p.plug},
         map,
         title:p.name
       })

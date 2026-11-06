@@ -3,38 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/style.css">
+  <!-- <link rel="stylesheet" href="/style.css"> -->
   <link rel="stylesheet" href="public/map.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <title>Demo Day Main Page</title>
 </head>
 <body>
-<h1> Find Events By You:  </h1> 
+   <a href="/organization" href="/volunteer" class="inline-block rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue700">
+    Profile
+  </a>
+<h1 class="text-2xl font-bold text-center my-6"> Find Events By You:  </h1> 
 
 <div id="map" style="height:480px; width:100%; background:#ddd;"></div>
 
   <!-- loop through events database -->
-    <div class="min-h-screen flex-items-center justify-center bg-gray-100"></div>
     <!-- <form action="/login" method="POST" class="w-full max-w-sm bg-white p-8 rounded x1 shadow-lg space-y-4"> -->
-      <form action="/login" method="POST"
+      <!-- <form action="/login" method="POST"
     class="bg-white/20 backdrop-blur-md border border-white/30 rounded-xl shadow-lg p-6 text-white">
 
       <h1 class="text-2xl font-bold text-center"> Name</h1>
       <label for="">
-      <input type="text" name="text" placeholder="Name" class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <input type="text" name="text" placeholder="Name" class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"> -->
       <!-- class="w-full border border-gray-300 rounded-lg px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"> -->
-            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Submit</button>
+            <!-- <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Submit</button>
             </label>
       <h2 class="text-2x1 font-bold text-center"> Experience</h2>
-            <input type="text" name="text" placeholder="Name" class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="text" name="text" placeholder="Experience" class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
       <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Submit</button>
       <h2 class="text-2xl font-bold text-center"> Zipcode</h2>
-           <input type="text" name="text" placeholder="Name" class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+           <input type="text" name="text" placeholder="Zipcode" class="mt-1 w-full rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-      <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Submit</button>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Submit</button> -->
     </form>
-    </div>
-  </div>
   <script src="/map.js"></script>
   <script async src="https://maps.googleapis.com/maps/api/js?key=<%= mapsKey %>&callback=getMap"></script>
 </body>

@@ -1,4 +1,4 @@
-*{
+/* *{
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -6,8 +6,8 @@
 
 
 body{
-  /* background-position:center; */
-  /* background-image: url('/hands2.jpg'); */
+  background-position:center;
+  background-image: url('/hands2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -108,4 +108,4 @@ li{
 .createBtn{
 margin-top: 2%; 
 margin-left:20%;
-}
+} */
