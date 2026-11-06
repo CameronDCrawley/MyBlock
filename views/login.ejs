@@ -4,66 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="https://cdn.tailwindcss.com"></script>
   <title>Login Page</title>
 </head>
 <body>
-  <h2> Volunteer Login</h2>
-     <h1><span class="fa fa-sign-in"></span> MyBlock Login</h1>
+  <h2 class="text-2xl font-bold text-center my-6 border-b-4"> Volunteer Login</h2>
+     <h1 class="text-2xl font-bold text-center my-6"> <span class="fa fa-sign-in"></span> MyBlock Login</h1>
 
     <% if (volunteerMessage.length > 0) { %>
         <div class="alert alert-danger"><%= message %></div>
     <% } %>
 
     <!-- LOGIN FORM -->
-     
+     <div class="text-2xl font-bold text-center">
     <form action="/login/volunteer" method="post">
         <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
+            <label>Email:</label>
+            <input type="text" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="email">
         </div>
         <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
+            <label>Password:</label>
+            <input type="password" class="form-control" class="mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password">
         </div>
 
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
+        <button type="submit" class="btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue700" >Login</button>
     </form>
+    </div>
 
-    <hr>
 
-    <p>Need an account? <a href="/signup">Signup</a></p>
-    <p>Or go <a href="/">home</a>.</p>
+    <p>Need an account? <a href="/signup"class="text-blue-600  decoration-4 underline-offset-4 hover:text-blue-800">Signup</a></p>
+    <p>Or go <a href="/"class="text-blue-600 decoration-4 underline-offset-4 hover:text-blue-800">Home</a></p>
 
 
 </div>
 </div>
-  <h2> Organization Login</h2>
-     <h1><span class="fa fa-sign-in"></span> MyBlock Login</h1>
+  <h2 class="text-2xl font-bold text-center my-6"> Organization Login</h2>
+     <!-- <h1><span class="fa fa-sign-in"></span> MyBlock Login</h1> -->
 
     <% if (organizationMessage.length > 0) { %>
         <div class="alert alert-danger"><%= message %></div>
     <% } %>
 
     <!-- LOGIN FORM -->
-     
+          <div class="text-2xl font-bold text-center">
+
     <form action="/login/organization" method="post">
         <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
+            <label>Email:</label>
+            <input type="text" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="email">
         </div>
         <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
+            <label>Password:</label>
+            <input type="password" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password">
         </div>
 
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
-    </form>
+<button type="submit" class="btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue700" >Login</button>
 
-    <hr>
+</form>
+</div>
 
-    <p>Need an account? <a href="/signup">Signup</a></p>
-    <p>Or go <a href="/">home</a>.</p>
+    <p>Need an account? <a href="/signup" class="text-blue-600  decoration-4 underline-offset-4 hover:text-blue-800">Signup</a></p>
+    <p>Or go <a href="/"class="text-blue-600  decoration-4 underline-offset-4 hover:text-blue-800">home</a>.</p>
 
 
 </div>
