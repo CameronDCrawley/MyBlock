@@ -4,7 +4,7 @@
 let LocalStrategy   = require('passport-local').Strategy;
 
 // load up the user model
-let User = require('../app/models/User');
+const User = require('../app/models/User');
 //let iconicMoment = require('../app/models/iconicMoment');
 
 // expose this function to our app using module.exports
@@ -54,7 +54,12 @@ module.exports = function(passport) {
             // check to see if theres already a user with that email
             if (user) {
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-            } else {
+            }
+            //Two roles only
+
+            const role = req.body.role === 'organization' ? 'organization' : 'volunteer';
+            
+            
 
 				// if there is no user with that email
                 // create the user
@@ -63,12 +68,13 @@ module.exports = function(passport) {
                 // set the user's local credentials
                 newUser.local.email    = email;
                 newUser.local.password = newUser.generateHash(password); // use the generateHash function in our user model
-
+                newUser.role = role;
+                if (req.body.name) newUser.name = req.body.name;
 				// save the user
                await newUser.save()
                     
                     return done(null, newUser);
-                };
+            
             }catch (err){
                 return done(err)
             }
@@ -83,13 +89,13 @@ module.exports = function(passport) {
     // we are using named strategies since we have one for login and one for signup
     // by default, if there was no name, it would just be called 'local'
 
-    passport.use('volunteer-login', new LocalStrategy({
-        // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',
+    function loginBy(role,flashKey){
+       return new LocalStrategy({
+         usernameField : 'email',
         passwordField : 'password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
-     async function(req, email, password, done) { // callback with email and password from our form
+    async function(req, email, password, done) { // callback with email and password from our form
 
         // find a user whose email is the same as the forms email
         // we are checking to see if the user trying to login already exists
@@ -99,50 +105,22 @@ module.exports = function(passport) {
 
             // if no user is found, return the message
 
-            if (!user)
-                return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+            if (!user || !user.validPassword(password))
+                return done(null, false, req.flash(flashKey, 'Wrong user or password.')); // req.flash is the way to set flashdata using connect-flash
 
             // if the user is found but the password is wrong
-            if (!user.validPassword(password))
-                return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+            if (user.role !== role){
+                const other = role === 'volunteer' ? 'organization' : 'volunteer';
+                return done(null,false, req.flash(flashKey,`This is an ${other} account. Use the other login`))
+            }
+               
 // all is well,//  return successful user  
                                     return done(null, user);
         } catch(err){
             return done(err);
         }
-    }));
-// =========================================================================
-    // Org LOGIN =============================================================
-    // =========================================================================
-    // we are using named strategies since we have one for login and one for signup
-    // by default, if there was no name, it would just be called 'local'
-
-    passport.use('organization-login', new LocalStrategy({
-        // by default, local strategy uses username and password, we will override with email
-        usernameField : 'email',
-        passwordField : 'password',
-        passReqToCallback : true // allows us to pass back the entire request to the callback
-    },
-     async function(req, email, password, done) { // callback with email and password from our form
-
-        // find a user whose email is the same as the forms email
-        // we are checking to see if the user trying to login already exists
-        try {
-        let user = await User.findOne({ 'local.email' :  email })
-            // if there are any errors, return the error before anything else
-
-            // if no user is found, return the message
-
-            if (!user)
-                return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
-
-            // if the user is found but the password is wrong
-            if (!user.validPassword(password))
-                return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
-// all is well,//  return successful user  
-                                    return done(null, user);
-        } catch(err){
-            return done(err);
-        }
-    }));
-};
+    });
+    }
+passport.use('volunteer-login',loginBy('volunteer','volunteerLoginMessage'))
+passport.use('organization-login',loginBy('organization','organizationLoginMessage'))
+}
