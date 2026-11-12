@@ -22,6 +22,10 @@ streetViewControl:false,
         title:p.name,
         icon: {
           fillColor:color[p.type]||color.other,
+          scale:8, //size
+          fillOpacity:1,
+          strokeColor:'white',
+          path:google.maps.SymbolPath.CIRCLE // shape
         }
       })
       marker.addListener('click',()=> {

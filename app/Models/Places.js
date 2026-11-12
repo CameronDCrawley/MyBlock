@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
-let placesSchema = new mongoose.Schema({
+const placesSchema = new mongoose.Schema({
 
-   name:String,
-   type: String,
+   name: {type:String},
+   type: {type:String},
    kind:String,
    address:String,
    zip:String,
