@@ -7,6 +7,9 @@ const flash = require('connect-flash')
 const passport= require('passport')
 const cors = require('cors')
 const PORT = 8080
+const Place = require('./app/models/Places')
+// const Volunteer = require('./app/models/Volunteer')
+// const Organization = require('./app/models/Organization')
 require('./config/passport')(passport)
 module.exports = function(app, passport){
 
@@ -49,17 +52,17 @@ app.get('/',isLoggedIn, (req,res)=>{
     res.render('index',{user:req.user})
 })
 
-app.get('/api/places',(req,res) => {
-    const places = (
-        [
-           { name: "Queens Central Library", lat:40.7078, lng: -73.7946}
-        ]
-    )
-
-
-    res.render('index', {
-        mapsKey:process.env.GOOGLE_MAPS_KEY,places
-    })
+app.get('/api/places',async (req,res) => {
+   try{
+    const places = await Place.find({},'name type kind address zip lat lng hours phone')
+    res.json(places)
+   }
+   catch(err){
+    console.log(err)
+   }
+// res.render('index', {
+//         mapsKey:process.env.GOOGLE_MAPS_KEY,Place
+//     })
 })
 
 
@@ -127,76 +130,76 @@ app.get('/api/places',(req,res) => {
         });
     });
 
-app.get('/', isLoggedIn, async (request, response)=>{
-   let moments = await iconicMoment.find({})
-   console.log(moments)
-     response.render('index.ejs',{moments:moments})
+// app.get('/', isLoggedIn, async (request, response)=>{
+//    let moments = await iconicMoment.find({})
+//    console.log(moments)
+//      response.render('index.ejs',{moments:moments})
 
-})
-app.get('/api/', async (request, response)=>{
-let moments = await iconicMoment.find()
-.then(moment => {
-    console.log(moments)
-    response.json(moments)
+// })
+// app.get('/api/', async (request, response)=>{
+// let moments = await iconicMoment.find()
+// .then(moment => {
+//     console.log(moments)
+//     response.json(moments)
 
-})    
-})
-
-
-
-app.post('/', (req, res) => {
-  iconicMoment.create(
-{   image:req.body.image,
-    playerName: req.body.playerName, 
-    date:req.body.date,
-    moment: req.body.moment,
-    descriptionImg: req.body.descriptionImg,
-    sport:req.body.sport,
-    bid:req.body.bid,
-    buyNow:req.body.buyNow
-})
-.then(result => {
-    console.log('saved in the database')
-    res.redirect('/')
-})
-.catch(error => {
-    console.error(error)
-    res.status(500).send('Erro saving character')
-})
-})
+// })    
+// })
 
 
-app.put('/', async(req, res) => {
-const {momentName, bid}  = req.body 
-console.log(momentName) 
-console.log(bid)
- const result = await iconicMoment.findOneAndUpdate(
-    {moment:momentName},
-    {$push: { bid:bid }},
-    {new:true}
 
-  );
-  console.log(result)
-    res.json('New Bid')
-  })
+// app.post('/', (req, res) => {
+//   iconicMoment.create(
+// {   image:req.body.image,
+//     playerName: req.body.playerName, 
+//     date:req.body.date,
+//     moment: req.body.moment,
+//     descriptionImg: req.body.descriptionImg,
+//     sport:req.body.sport,
+//     bid:req.body.bid,
+//     buyNow:req.body.buyNow
+// })
+// .then(result => {
+//     console.log('saved in the database')
+//     res.redirect('/')
+// })
+// .catch(error => {
+//     console.error(error)
+//     res.status(500).send('Erro saving character')
+// })
+// })
 
 
-app.delete('/', (req, res) => {
-const {momentName} = req.body
-    iconicMoment.findOneAndDelete(
-        {moment:momentName},
+// app.put('/', async(req, res) => {
+// const {momentName, bid}  = req.body 
+// console.log(momentName) 
+// console.log(bid)
+//  const result = await iconicMoment.findOneAndUpdate(
+//     {moment:momentName},
+//     {$push: { bid:bid }},
+//     {new:true}
+
+//   );
+//   console.log(result)
+//     res.json('New Bid')
+//   })
+
+
+// app.delete('/', (req, res) => {
+// const {momentName} = req.body
+//     iconicMoment.findOneAndDelete(
+//         {moment:momentName},
         
-)
-      .then(result => {
-        console.log(result)
-    console.log('Sold!!!!')
-    res.json('Sold!!!!')
-})
-.catch(error => {
-    console.error(error)
-    res.status(500).send('Error saving character')
-})
-})
+// )
+//       .then(result => {
+//         console.log(result)
+//     console.log('Sold!!!!')
+//     res.json('Sold!!!!')
+// })
+// .catch(error => {
+//     console.error(error)
+//     res.status(500).send('Error saving character')
+// })
+// })
 
 
 // route middleware to ensure user is logged in

@@ -1,4 +1,4 @@
-const { name } = require("ejs")
+const mongoose = require('mongoose')
 
 let volunteerSchema = new mongoose.Schema({
 

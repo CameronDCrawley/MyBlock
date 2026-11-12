@@ -13,11 +13,16 @@ streetViewControl:false,
     const res = await fetch('/api/places')
     const places = await res.json()
 
+    const color = {food: 'orange' , library: 'blue' , shelter: 'green', other: 'red'}
+
     places.forEach(p => {
       const marker = new google.maps.Marker( {
-        position:{lat:p.lat, lng:p.plug},
+        position:{lat:p.lat, lng:p.lng},
         map,
-        title:p.name
+        title:p.name,
+        icon: {
+          fillColor:color[p.type]||color.other,
+        }
       })
       marker.addListener('click',()=> {
         const box = document.createElement('strong');
