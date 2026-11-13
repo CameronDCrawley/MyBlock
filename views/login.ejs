@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
-  <title>MyBlock Login Page</title>
+  <title>MyBlockLogin Page</title>
 </head>
 <body>
   <h2 class="text-2xl font-bold text-center my-6 border-b-4"> Volunteer Login</h2>
      <h1 class="text-2xl font-bold text-center my-6"> <span class="fa fa-sign-in"></span> MyBlock Login</h1>
 
     <% if (volunteerMessage.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
+        <div class="alert alert-danger"><%= volunteerMessage %></div>
     <% } %>
 
     <!-- LOGIN FORM -->
@@ -24,10 +24,10 @@
         </div>
         <div class="form-group">
             <label>Password:</label>
-            <input type="password" class="form-control" class="mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password">
+            <input type="password" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password">
         </div>
 
-        <button type="submit" class="btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue700" >Login</button>
+        <button type="submit" class="btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700" >Login</button>
     </form>
     </div>
 
@@ -42,7 +42,7 @@
      <!-- <h1><span class="fa fa-sign-in"></span> MyBlock Login</h1> -->
 
     <% if (organizationMessage.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
+        <div class="mb-4 rounded-lg bg-red-50 border border-red-300 text-red-700"><%= organizationMessage %></div>
     <% } %>
 
     <!-- LOGIN FORM -->
@@ -58,7 +58,7 @@
             <input type="password" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password">
         </div>
 
-<button type="submit" class="btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue700" >Login</button>
+<button type="submit" class="btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700" >Login</button>
 
 </form>
 </div>

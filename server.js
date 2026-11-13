@@ -113,6 +113,10 @@ app.get('/api/places',async (req,res) => {
             res.render('volunteerPortal.ejs', { message: req.flash('signupMessage') });
         });
 
+        app.get('/portal',isLoggedIn,(req,res)=> {
+            res.redirect(req.user.role === 'organization' ? '/organization' : '/volunteer')
+        })
+
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
 // =============================================================================
