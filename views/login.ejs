@@ -5,39 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
-  <title>MyBlockLogin Page</title>
+  <title>MyBlock Login Page</title>
 </head>
 <body>
-  <h2 class="text-2xl font-bold text-center my-6 border-b-4"> Volunteer Login</h2>
-     <h1 class="text-2xl font-bold text-center my-6"> <span class="fa fa-sign-in"></span> MyBlock Login</h1>
+      <h2 class="text-2xl font-bold text-center my-6 border-b-4"> MyBlock Login. </h2>
+
+        <main class="max-w-4xl mx-auto px-4 grid gap-32 md:grid-cols-2">
+
+    <section class="w-full md:w-120 py-20 min-h- [420px]">
+     <h1 class="text-2xl font-bold text-center my-6"> <span class="fa fa-sign-in"></span>Volunteer Login </h1>
 
     <% if (volunteerMessage.length > 0) { %>
-        <div class="alert alert-danger"><%= volunteerMessage %></div>
+        <div class="mb-4 rounded-lg bg-red-50 border border-red-300 text-red-700"><%=  volunteerMessage %></div>
     <% } %>
+
 
     <!-- LOGIN FORM -->
      <div class="text-2xl font-bold text-center">
     <form action="/login/volunteer" method="post">
         <div class="form-group">
-            <label>Email:</label>
-            <input type="text" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="email">
+            <label for="volunteerEmail" class="block text-500 font-semibold mb-1">Email:</label>
+            <input type="email" name ="email" required class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
         <div class="form-group">
-            <label>Password:</label>
-            <input type="password" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password">
+            <label for="volunteerPass" class="block text-500 font-semibold mb-1">Password:</label>
+            <input type="password" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password" required>
         </div>
 
-        <button type="submit" class="btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700" >Login</button>
+        <button type="submit" class=" btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700" >Login</button>
     </form>
-    </div>
-
-
-    <p>Need an account? <a href="/signup"class="text-blue-600  decoration-4 underline-offset-4 hover:text-blue-800">Signup</a></p>
-    <p>Or go <a href="/"class="text-blue-600 decoration-4 underline-offset-4 hover:text-blue-800">Home</a></p>
-
-
+</section>
 </div>
 </div>
+<section class="w-full md:w-120 py-20 min-h- [420px]">
   <h2 class="text-2xl font-bold text-center my-6"> Organization Login</h2>
      <!-- <h1><span class="fa fa-sign-in"></span> MyBlock Login</h1> -->
 
@@ -50,21 +50,26 @@
 
     <form action="/login/organization" method="post">
         <div class="form-group">
-            <label>Email:</label>
-            <input type="text" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="email">
+            <label for="orgEmail" class="block text-500 font-semibold mb-1">Email:</label>
+            <input  type="email" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="email" required>
         </div>
         <div class="form-group">
-            <label>Password:</label>
-            <input type="password" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password">
+            <label for="orgPassword" class="block text-500 font-semibold mb-1">Password:</label>
+            <input  type="password" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password" required>
         </div>
 
 <button type="submit" class="btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700" >Login</button>
 
 </form>
 </div>
+</section>
+</main>
+<div class="text-center mt-8 space-y-1">
+    <div class="border-t pt-8 flex flex-col items-center gap-4 text-center">
+    <p> New to MyBlock? <a href="/signup" class="text-amber-600  decoration-4 underline-offset-4 hover:text-purple-800">Signup Here</a></p>
+    <p>Or go <a href="/"class="text-amber-600  decoration-4 underline-offset-4 hover:text-purple-800">Home</a>.</p>
 
-    <p>Need an account? <a href="/signup" class="text-blue-600  decoration-4 underline-offset-4 hover:text-blue-800">Signup</a></p>
-    <p>Or go <a href="/"class="text-blue-600  decoration-4 underline-offset-4 hover:text-blue-800">home</a>.</p>
+    </div>
 
 
 </div>

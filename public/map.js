@@ -13,7 +13,7 @@ streetViewControl:false,
     const res = await fetch('/api/places')
     const places = await res.json()
 
-    const color = {food: 'orange' , library: 'blue' , shelter: 'green', other: 'red'}
+    const color = {food: 'orange' , library: 'blue' , shelter: 'green', youth:'red', community:'black',culture:'yellow',garden: 'green',other: 'purple'}
 
     places.forEach(p => {
       const marker = new google.maps.Marker( {

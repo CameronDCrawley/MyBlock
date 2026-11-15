@@ -8,6 +8,7 @@ const passport= require('passport')
 const cors = require('cors')
 const PORT = 8080
 const Place = require('./app/models/Places')
+const Event = require('.app/models/Event')
 // const Volunteer = require('./app/models/Volunteer')
 // const Organization = require('./app/models/Organization')
 require('./config/passport')(passport)
@@ -48,7 +49,12 @@ app.use((req,res,next)=>{
     next()
 })
 
-app.get('/',isLoggedIn, (req,res)=>{
+app.get('/',isLoggedIn, async(req,res)=>{
+    const today = new Date(); today.setHours(0,0,0,0)
+    const events = await Event.find({date:{$gte:today}})
+    .sort({date:1})
+    .populate('placeId')
+    .populate('orgId','name')
     res.render('index',{user:req.user})
 })
 
@@ -64,6 +70,36 @@ app.get('/api/places',async (req,res) => {
 //         mapsKey:process.env.GOOGLE_MAPS_KEY,Place
 //     })
 })
+app.get('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
+            try{
+                await Event.create({
+                    title:req.body.title,
+                    description:req.body.description,
+                    date:req.body.date,
+                    startTime:req.body.startTime,
+                    endTime:req.body.endTime,
+                    spots:req.body.spots,
+                    skills:(req.body.skills || '').split(',').map(s=> s.trim()).filter(Boolean)
+                })
+            
+            res.redirect(req.user.role === 'organization' ? '/organization' : '/volunteer')
+        } catch(err){
+            console.error(err)
+            res.redirect('organization')
+        }
+    })
+
+    app.post('/events/:id/delete',isLoggedIn,requireRole('organization'),async(req,res)=> {
+        await Event.deleteOne({_id: req.params.id,orgId:req.user._id})
+        res.redirect('/organization')
+    })
+
+
+    app.post('/events/:id/signup',isLoggedIn,requireRole('organization'),async(req,res)=> {
+        await Event.updateOne({_id: req.params.id},{$addToSet:{signups:req.user._id}})
+        res.redirect('/')
+    })
+
 
 
 
@@ -114,6 +150,7 @@ app.get('/api/places',async (req,res) => {
         });
 
         app.get('/portal',isLoggedIn,(req,res)=> {
+            
             res.redirect(req.user.role === 'organization' ? '/organization' : '/volunteer')
         })
 
