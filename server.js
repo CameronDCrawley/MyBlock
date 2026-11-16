@@ -6,15 +6,12 @@ const session = require('express-session')
 const flash = require('connect-flash')
 const passport= require('passport')
 const cors = require('cors')
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 const Place = require('./app/models/Places')
 const Event = require('./app/models/Event')
 // const Volunteer = require('./app/models/Volunteer')
 // const Organization = require('./app/models/Organization')
 require('./config/passport')(passport)
-module.exports = function(app, passport){
-
-}
 
 
 const uri = process.env.MONGODB_URI;
@@ -46,8 +43,16 @@ app.use(passport.session())
 app.set('view engine', 'ejs'); // set up ejs for templating
 app.locals.mapsKey = process.env.GOOGLE_MAPS_KEY;
 app.use((req,res,next)=>{
+    res.locals.user=req.user
     next()
 })
+
+function requireRole(role){
+    return (req,res,next)=> {
+        if (req.user && req.user.role === role) return next()
+            res.redirect('/portal')
+    }
+}
 
 app.get('/',isLoggedIn, async(req,res)=>{
     const today = new Date(); today.setHours(0,0,0,0)
@@ -55,14 +60,16 @@ app.get('/',isLoggedIn, async(req,res)=>{
     .sort({date:1})
     .populate('placeId')
     .populate('orgId','name')
-    res.render('index',{user:req.user})
+    res.render('index',{events})
 })
 
 app.get('/organization',isLoggedIn,requireRole('organization'),async(req,res)=>{
-    let places = await Places.find({ownerId:req.user._id}).sort({name:1})
-    if(places.length === 0) places = await Places.find().sort({name:1})
-        const myEvents = await Event.find({orgId:req.user._id}).sort({date:1}).populate('placeId')
-    res.render('organization',{places,myEvents})
+    let places = 
+    await Place.find({ownerId:req.user._id}).sort({name:1})
+    if(places.length === 0) places = await Place.find().sort({name:1})
+ const myEvents = 
+await Event.find({orgId:req.user._id}).sort({date:1}).populate('placeId')
+    res.render('organizationPortal.ejs',{places,myEvents, message:req.flash('eventMessage')})
 })
 
 app.get('/api/places',async (req,res) => {
@@ -77,7 +84,7 @@ app.get('/api/places',async (req,res) => {
 //         mapsKey:process.env.GOOGLE_MAPS_KEY,Place
 //     })
 })
-app.get('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
+app.post('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
             try{
                 await Event.create({
                     title:req.body.title,
@@ -86,13 +93,15 @@ app.get('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
                     startTime:req.body.startTime,
                     endTime:req.body.endTime,
                     spots:req.body.spots,
-                    skills:(req.body.skills || '').split(',').map(s=> s.trim()).filter(Boolean)
+                    skills:(req.body.skills || '').split(',').map(s=> s.trim()).filter(Boolean),
+                    placeId:req.body.placeId,
+                    orgId:req.user._id,
                 })
             
             res.redirect(req.user.role === 'organization' ? '/organization' : '/volunteer')
         } catch(err){
             console.error(err)
-            res.redirect('organization')
+            res.redirect('/organization')
         }
     })
 
@@ -124,7 +133,7 @@ app.get('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
     })
 
 
-    app.post('/events/:id/signup',isLoggedIn,requireRole('organization'),async(req,res)=> {
+    app.post('/events/:id/signup',isLoggedIn,requireRole('volunteer'),async(req,res)=> {
         await Event.updateOne({_id: req.params.id},{$addToSet:{signups:req.user._id}})
         res.redirect('/')
     })
@@ -165,16 +174,16 @@ app.get('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
 
         // process the signup form
         app.post('/signup', passport.authenticate('local-signup', {
-            successRedirect : '/', // redirect to the secure profile section
+            successRedirect : '/portal', // redirect to the secure profile section
             failureRedirect : '/signup', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
         }));
 
-        app.get('/organization', function(req, res) {
-            res.render('organizationPortal.ejs', { message: req.flash('signupMessage') });
-        });
+        // app.get('/organization', function(req, res) {
+        //     res.render('organizationPortal.ejs', { message: req.flash('signupMessage') });
+        // });
 
-        app.get('/volunteer', function(req, res) {
+        app.get('/volunteer',isLoggedIn, requireRole('volunteer'),function(req, res) {
             res.render('volunteerPortal.ejs', { message: req.flash('signupMessage') });
         });
 
@@ -182,94 +191,6 @@ app.get('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
             
             res.redirect(req.user.role === 'organization' ? '/organization' : '/volunteer')
         })
-
-// =============================================================================
-// UNLINK ACCOUNTS =============================================================
-// =============================================================================
-// used to unlink accounts. for social accounts, just remove the token
-// for local account, remove email and password
-// user account will stay active in case they want to reconnect in the future
-
-    // local -----------------------------------
-    app.get('/unlink/local', isLoggedIn, function(req, res) {
-        const user            = req.user;
-        user.local.email    = undefined;
-        user.local.password = undefined;
-        user.save(function(err) {
-            res.redirect('/profile');
-        });
-    });
-
-// app.get('/', isLoggedIn, async (request, response)=>{
-//    let moments = await iconicMoment.find({})
-//    console.log(moments)
-//      response.render('index.ejs',{moments:moments})
-
-// })
-// app.get('/api/', async (request, response)=>{
-// let moments = await iconicMoment.find()
-// .then(moment => {
-//     console.log(moments)
-//     response.json(moments)
-
-// })    
-// })
-
-
-
-// app.post('/', (req, res) => {
-//   iconicMoment.create(
-// {   image:req.body.image,
-//     playerName: req.body.playerName, 
-//     date:req.body.date,
-//     moment: req.body.moment,
-//     descriptionImg: req.body.descriptionImg,
-//     sport:req.body.sport,
-//     bid:req.body.bid,
-//     buyNow:req.body.buyNow
-// })
-// .then(result => {
-//     console.log('saved in the database')
-//     res.redirect('/')
-// })
-// .catch(error => {
-//     console.error(error)
-//     res.status(500).send('Erro saving character')
-// })
-// })
-
-
-// app.put('/', async(req, res) => {
-// const {momentName, bid}  = req.body 
-// console.log(momentName) 
-// console.log(bid)
-//  const result = await iconicMoment.findOneAndUpdate(
-//     {moment:momentName},
-//     {$push: { bid:bid }},
-//     {new:true}
-
-//   );
-//   console.log(result)
-//     res.json('New Bid')
-//   })
-
-
-// app.delete('/', (req, res) => {
-// const {momentName} = req.body
-//     iconicMoment.findOneAndDelete(
-//         {moment:momentName},
-        
-// )
-//       .then(result => {
-//         console.log(result)
-//     console.log('Sold!!!!')
-//     res.json('Sold!!!!')
-// })
-// .catch(error => {
-//     console.error(error)
-//     res.status(500).send('Error saving character')
-// })
-// })
 
 
 // route middleware to ensure user is logged in
