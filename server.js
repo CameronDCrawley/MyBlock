@@ -58,6 +58,13 @@ app.get('/',isLoggedIn, async(req,res)=>{
     res.render('index',{user:req.user})
 })
 
+app.get('/organization',isLoggedIn,requireRole('organization'),async(req,res)=>{
+    let places = await Places.find({ownerId:req.user._id}).sort({name:1})
+    if(places.length === 0) places = await Places.find().sort({name:1})
+        const myEvents = await Event.find({orgId:req.user._id}).sort({date:1}).populate('placeId')
+    res.render('organization',{places,myEvents})
+})
+
 app.get('/api/places',async (req,res) => {
    try{
     const places = await Place.find({},'name type kind address zip lat lng hours phone')
@@ -88,6 +95,28 @@ app.get('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
             res.redirect('organization')
         }
     })
+
+    app.get('/api/events',async (req,res)=> {
+            try{
+                const today = new Date(); today.setHours(0,0,0,0)
+                const events = await Event.find({date:{$gte:today}}).sort({date:1}).populate('placeId')
+                res.json(events.filter(e=>e.placeId).map(e=> ({
+                    id:e._id,
+                    title:e.title,
+                    date:e.date,
+                    startTime:e.startTime,
+                    endTime:e.endTime,
+                    spotsLeft:e.spots - e.signups.length,
+                    placeName:e.placeId.name,
+                    address:e.placeId.address,
+                    lat:e.placeId.lat,
+                    lng:e.placeId.lng,
+                })))
+            } catch(err){
+                console.error(err)
+                res.status(500).json({error:'No events are loading'})
+            }
+        })
 
     app.post('/events/:id/delete',isLoggedIn,requireRole('organization'),async(req,res)=> {
         await Event.deleteOne({_id: req.params.id,orgId:req.user._id})

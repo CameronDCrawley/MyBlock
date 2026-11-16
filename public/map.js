@@ -1,3 +1,24 @@
+const eventMarkers = {}
+
+let mapRef
+
+function focusEvent(id){
+  const mark = eventMarkers[id]
+
+  if(!mark) return
+  mapRef.panTo(m.marker.getPosition())
+  mapRef.setZoom(15)
+  mark.open()
+  document.getElementById('map').scrollIntoView({behavior:'smooth'})
+
+}
+
+window.focusEvent = focusEvent
+
+
+
+
+
 async function getMap(){
   const map =new google.maps.Map(document.getElementById('map'),{
 center: { lat:40.7282, lng: -73.7949},//Queens location

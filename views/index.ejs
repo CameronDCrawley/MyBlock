@@ -16,6 +16,42 @@
 
 <div id="map" style="height:480px; width:100%; background:#ddd;"></div>
 
+<section class="space-y-3">
+  <h2 class="text-6xl font-bold"> Upcoming Events</h2>
+  <% if (events.length === 0) { %>
+    <p class="text-gray-500"> No events at this moment. </p>
+    <%} %>
+
+    <% events.forEach( e => { %>
+      <div class="border rounded-lg p-4 shadow-sm">
+        <p class="text-sm text-gray-500">
+          <%= e.date.toDateString() %><% if (e.startTime) { %> . <%= e.startTime %>-<%= e.endTime %><%} %>
+        </p>
+        <h3 class="font-bold text-lg"><%=e.title %></h3>
+        <p class="text-sm"> <%= e.placeId ? e.placeId.name : '' %> . <% e.placeId ? e.placeId.addresss : '' %></p>
+        <p class="my-2"> <%e.description %></p>
+        <p class="text-sm"><%= e.spots - e.signups.length %> spots left</p>
+        <div class="flex gap-3 mt-2">
+          
+        <button onclick="FocusEvent('<%= e._id %>') " class="text-blue-600 underline"> Show on map
+
+        </button>
+
+        <% if (user && user.role ==== 'volunteer') { %>
+          <form action="/events/ <% e._id 5> /signup" method="post">
+
+            <button class="bg-green-600 text-white px-3 py-1 rounded">Sign up</button>
+          </form>
+
+          <% } %> 
+        </div>
+      </div>
+      
+     <% }) %>
+
+  
+</section>
+
   <!-- loop through events database -->
     <!-- <form action="/login" method="POST" class="w-full max-w-sm bg-white p-8 rounded x1 shadow-lg space-y-4"> -->
       <!-- <form action="/login" method="POST"
