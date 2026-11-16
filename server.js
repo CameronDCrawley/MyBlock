@@ -8,7 +8,7 @@ const passport= require('passport')
 const cors = require('cors')
 const PORT = 8080
 const Place = require('./app/models/Places')
-const Event = require('.app/models/Event')
+const Event = require('./app/models/Event')
 // const Volunteer = require('./app/models/Volunteer')
 // const Organization = require('./app/models/Organization')
 require('./config/passport')(passport)
