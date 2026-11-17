@@ -28,17 +28,17 @@
           <%= e.date.toDateString() %><% if (e.startTime) { %> . <%= e.startTime %>-<%= e.endTime %><%} %>
         </p>
         <h3 class="font-bold text-lg"><%=e.title %></h3>
-        <p class="text-sm"> <%= e.placeId ? e.placeId.name : '' %> . <% e.placeId ? e.placeId.addresss : '' %></p>
-        <p class="my-2"> <%e.description %></p>
+        <p class="text-sm"> <%= e.placeId ? e.placeId.name : '' %> . <%= e.placeId ? e.placeId.address: '' %></p>
+        <p class="my-2"> <%= e.description %></p>
         <p class="text-sm"><%= e.spots - e.signups.length %> spots left</p>
         <div class="flex gap-3 mt-2">
           
-        <button onclick="FocusEvent('<%= e._id %>') " class="text-blue-600 underline"> Show on map
+        <button onclick="focusEvent('<%= e._id %>') " class="text-blue-600 underline"> Show on map
 
         </button>
 
-        <% if (user && user.role ==== 'volunteer') { %>
-          <form action="/events/ <% e._id 5> /signup" method="post">
+        <% if (user && user.role ==='volunteer') { %>
+          <form action="/events/ <%= e._id %>/signup" method="post">
 
             <button class="bg-green-600 text-white px-3 py-1 rounded">Sign up</button>
           </form>

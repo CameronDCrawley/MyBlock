@@ -87,12 +87,12 @@ app.get('/api/places',async (req,res) => {
 app.post('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
             try{
                 await Event.create({
-                    title:req.body.title,
+                    title:req.body.event,
                     description:req.body.description,
-                    date:req.body.date,
+                    date:req.body.eventDate,
                     startTime:req.body.startTime,
                     endTime:req.body.endTime,
-                    spots:req.body.spots,
+                    spots:req.body.volunteersNeeded,
                     skills:(req.body.skills || '').split(',').map(s=> s.trim()).filter(Boolean),
                     placeId:req.body.placeId,
                     orgId:req.user._id,

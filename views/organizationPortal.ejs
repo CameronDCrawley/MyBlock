@@ -21,6 +21,16 @@
     <label for="addName">Event Name:</label>
     <input class="mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" type="text"  id="eventName" name="event" placeholder="Org" required>
     </li>
+    <li>
+      <label for="placeId">Location:</label>
+      <select name="placeId" id="placeId" required class="mt-1 w-full max-w-md rounded-lg px-3 py-2">
+        <% places.forEach(p => { %>
+        <option value="<%= p._id %>"><%= p.name %> (<%= p.address %>)</option>
+        
+        <%}) %>
+
+      </select>
+    </li>
 
        <li>
     <label for="addDate">Date:</label>
@@ -63,6 +73,6 @@
             <button class ="text-red-600"> Delete </button>
           </form>
         </div>
-      })
+    <%  }) %>
 </body>
 </html>

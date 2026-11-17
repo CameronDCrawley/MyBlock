@@ -11,7 +11,7 @@ const eventSchema = new mongoose.Schema({
   skills: [String],
   placeId: {type:mongoose.Schema.Types.ObjectId, ref:'Places', required:true},
   orgId: {type:mongoose.Schema.Types.ObjectId, ref:'User', required:true},
-  signup: [{type:mongoose.Schema.Types.ObjectId, ref:'user'}]
+  signups: [{type:mongoose.Schema.Types.ObjectId, ref:'User'}]
 },{timestamps:true})
 
 
