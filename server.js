@@ -60,7 +60,7 @@ app.get('/',isLoggedIn, async(req,res)=>{
     .sort({date:1})
     .populate('placeId')
     .populate('orgId','name')
-    res.render('index',{events})
+    res.render('index',{events,message:req.flash('feedMessage')})
 })
 
 app.get('/organization',isLoggedIn,requireRole('organization'),async(req,res)=>{
@@ -134,9 +134,38 @@ app.post('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
 
 
     app.post('/events/:id/signup',isLoggedIn,requireRole('volunteer'),async(req,res)=> {
-        await Event.updateOne({_id: req.params.id},{$addToSet:{signups:req.user._id}})
+        try{
+        let signupInfo = await Event.updateOne(
+            {
+            _id: req.params.id,
+            signups:{$ne:req.user._id},
+            $exr:{$lt:[{$size:'$signups'},'$spots']},
+            
+            },
+            {$push:{signups:req.user._id}}
+
+        )
+        req.flash('feedMessage',signupInfo.modifiedCount ? 'You;ve already signed up':'Signups are filled')
+    } catch(err){
+        console.log(err)
+        req.flash('feedMessage','Could not sign up.Try again')
+    }
         res.redirect('/')
     })
+
+app.post('/events/:id/cancel',isLoggedIn,requireRole('volunteer'),async(req,res)=> {
+        try{
+        await Event.updateOne(
+            {_id: req.params.id},
+            {$pull:{signups:req.user._id}}
+           )
+        req.flash('feedMessage','Your signup has been cancelled')
+    } catch(err){
+        console.log(err)
+    }
+        res.redirect('/')
+    })
+
 
 
 
@@ -183,8 +212,11 @@ app.post('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
         //     res.render('organizationPortal.ejs', { message: req.flash('signupMessage') });
         // });
 
-        app.get('/volunteer',isLoggedIn, requireRole('volunteer'),function(req, res) {
-            res.render('volunteerPortal.ejs', { message: req.flash('signupMessage') });
+        app.get('/volunteer',isLoggedIn, requireRole('volunteer'),async(req, res)=> {
+            const myShifts= await Event.find(
+                {signups:req.user._id}.sort({date:1}).populate('placeId')
+ )
+            res.render('volunteerPortal.ejs', { message: req.flash('feedMessage'),myShifts});
         });
 
         app.get('/portal',isLoggedIn,(req,res)=> {
