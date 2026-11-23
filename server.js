@@ -9,6 +9,7 @@ const cors = require('cors')
 const PORT = process.env.PORT || 8080
 const Place = require('./app/models/Places')
 const Event = require('./app/models/Event')
+const User = require('./app/models/User')
 // const Volunteer = require('./app/models/Volunteer')
 // const Organization = require('./app/models/Organization')
 require('./config/passport')(passport)
@@ -55,12 +56,21 @@ function requireRole(role){
 }
 
 app.get('/',isLoggedIn, async(req,res)=>{
+    const zip = (req.query.zip || '').trim()
+  try {  
     const today = new Date(); today.setHours(0,0,0,0)
     const events = await Event.find({date:{$gte:today}})
     .sort({date:1})
     .populate('placeId')
     .populate('orgId','name')
+    if (zip) events = events.filter(e => e.placeId && e.placeId.zip === zip)
     res.render('index',{events,message:req.flash('feedMessage')})
+  }catch(err){
+    console.log(err)
+        console.error(err)
+        res.render('index', {events: [], zip,message: ['Events are not loading correctly']})
+    
+  }
 })
 
 app.get('/organization',isLoggedIn,requireRole('organization'),async(req,res)=>{
@@ -68,7 +78,7 @@ app.get('/organization',isLoggedIn,requireRole('organization'),async(req,res)=>{
     await Place.find({ownerId:req.user._id}).sort({name:1})
     if(places.length === 0) places = await Place.find().sort({name:1})
  const myEvents = 
-await Event.find({orgId:req.user._id}).sort({date:1}).populate('placeId')
+await Event.find({orgId:req.user._id}).sort({date:1}).populate('placeId').populate('signups','name')
     res.render('organizationPortal.ejs',{places,myEvents, message:req.flash('eventMessage')})
 })
 
@@ -79,6 +89,7 @@ app.get('/api/places',async (req,res) => {
    }
    catch(err){
     console.log(err)
+    res.status(500).json({error:'Places unable to load'})
    }
 // res.render('index', {
 //         mapsKey:process.env.GOOGLE_MAPS_KEY,Place
@@ -101,6 +112,7 @@ app.post('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
             res.redirect(req.user.role === 'organization' ? '/organization' : '/volunteer')
         } catch(err){
             console.error(err)
+            req.flash('eventMessage', 'Cold not post event. Check the event details')
             res.redirect('/organization')
         }
     })
@@ -139,18 +151,18 @@ app.post('/events',isLoggedIn,requireRole('organization'),async (req,res)=> {
             {
             _id: req.params.id,
             signups:{$ne:req.user._id},
-            $exr:{$lt:[{$size:'$signups'},'$spots']},
+            $expr:{$lt:[{$size:'$signups'},'$spots']},
             
             },
             {$push:{signups:req.user._id}}
 
         )
-        req.flash('feedMessage',signupInfo.modifiedCount ? 'You;ve already signed up':'Signups are filled')
+        req.flash('feedMessage', signupInfo.modifiedCount ? "You're signed up!" : 'This event is full, or you already signed up.')
     } catch(err){
         console.log(err)
         req.flash('feedMessage','Could not sign up.Try again')
     }
-        res.redirect('/')
+        res.redirect('/volunteer')
     })
 
 app.post('/events/:id/cancel',isLoggedIn,requireRole('volunteer'),async(req,res)=> {
@@ -163,7 +175,7 @@ app.post('/events/:id/cancel',isLoggedIn,requireRole('volunteer'),async(req,res)
     } catch(err){
         console.log(err)
     }
-        res.redirect('/')
+        res.redirect('/volunteer')
     })
 
 
@@ -212,12 +224,42 @@ app.post('/events/:id/cancel',isLoggedIn,requireRole('volunteer'),async(req,res)
         //     res.render('organizationPortal.ejs', { message: req.flash('signupMessage') });
         // });
 
+        // save the volunteer's profile info from the form on the volunteer portal
+        const toList = s => (s || '').split(',').map(x => x.trim()).filter(Boolean)
+
+        app.post('/volunteerInfo', isLoggedIn, requireRole('volunteer'), async (req, res) => {
+            try {
+                req.user.name = req.body.volunteerName
+                req.user.jobTitle = req.body.title
+                req.user.interests = toList(req.body.interests)
+                req.user.skills = toList(req.body.skills)
+                req.user.description = req.body.description
+                await req.user.save()
+                req.flash('feedMessage', 'Profile saved!')
+            } catch (err) {
+                console.error(err)
+                req.flash('feedMessage', 'Could not save your profile.')
+            }
+            res.redirect('/volunteer')
+        })
+
         app.get('/volunteer',isLoggedIn, requireRole('volunteer'),async(req, res)=> {
-            const myShifts= await Event.find(
-                {signups:req.user._id}.sort({date:1}).populate('placeId')
- )
+    const myShifts= await Event.find({signups:req.user._id}).sort({date:1}).populate('placeId')
+
             res.render('volunteerPortal.ejs', { message: req.flash('feedMessage'),myShifts});
         });
+
+        app.get('volunteer/:id',isLoggedIn, async (req,res) => {
+            try{
+                const volunteer = await User.findOne({_id:req.params.id, role:'volunteer'})
+                .select('name jobTitle skills interests description')
+                if(!volunteer) return res.status(404).send('Volunteer not found')
+                    res.render('volunteerProfile.ejs', {volunteer})
+            }catch(err){
+                console.log(err)
+                res.status(404).send('Volunteer not found')
+            }
+        })
 
         app.get('/portal',isLoggedIn,(req,res)=> {
             

@@ -57,6 +57,19 @@ streetViewControl:false,
         info.open(map,marker)
       })
     });
+    //Zoom to Zip
+    const zip = new URLSearchParams(window.location.search).get('zip')
+    if(zip){
+      const inZip = places.filter(p=> p.zip == zip)
+      if (inZip.length === 1){
+        map.setCenter({lat:inZip[0].lat, lng:inZip[0].lng})
+        map.setZoom(15)
+      }else if(inZip.length > 1){
+        const bounds = new google.maps.LatLngBounds()
+        inZip.forEach(p => bounds.extend ({lat:p.lat, lng: p.lng}))
+        map.fitBounds(bounds)
+      }
+    }
     const evPins = await fetch('/api/events')
     const events = await evPins.json()
     events.forEach(ev => {

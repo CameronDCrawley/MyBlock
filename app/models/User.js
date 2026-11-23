@@ -14,9 +14,10 @@ let userSchema = mongoose.Schema({
     zip:String,
 
     //volunteers
+    jobTitle: String,
     skills: [String],
-    interest:[String],
-    description:[String],
+    interests: [String],
+    description: String,
 
     //organization
     phone: String,
