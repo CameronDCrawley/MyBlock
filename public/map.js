@@ -6,7 +6,7 @@ function focusEvent(id){
   const mark = eventMarkers[id]
 
   if(!mark) return
-  mapRef.panTo(m.marker.getPosition())
+  mapRef.panTo(mark.marker.getPosition())
   mapRef.setZoom(15)
   mark.open()
   document.getElementById('map').scrollIntoView({behavior:'smooth'})
@@ -104,7 +104,7 @@ streetViewControl:false,
           info.open(map,mark)
        }
        mark.addListener('click',open)
-       eventMarkers[ev.id] = {mark, open}
+       eventMarkers[ev.id] = {marker: mark, open}
     })
 
   } catch(err){
