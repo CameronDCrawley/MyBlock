@@ -76,10 +76,10 @@
             
           </div>
           <form action="/events/<%=e._id %>/edit" method="post" class="flex gap-2 mt-2">
-            <input type="date" name="eventDate" value="<% e.date.toISOString().slice(0,10)" class="border rounded px-2">
-            <input type="text" name="startTime" value="e.startTime || '' %>" class="border rounded px-2 w-24">
-             <input type="text" name="endTime" value="e.endTime %>" class="border rounded px-2 w-24">
-              <input type="number" name="volunteersNeeded" value="e.spots || '' %>" class="border rounded px-2 w-24">
+            <input type="date" name="eventDate" value="<%= e.date.toISOString().slice(0,10)%>" class="border rounded px-2">
+            <input type="text" name="startTime" value="<%= e.startTime || '' %>" class="border rounded px-2 w-24">
+             <input type="text" name="endTime" value="<%= e.endTime %>" class="border rounded px-2 w-24">
+              <input type="number" name="volunteersNeeded" value="<%= e.spots || '' %>" class="border rounded px-2 w-24">
               <button class="text-blue-600 hover:underline">Save edits</button>
 
           </form>
