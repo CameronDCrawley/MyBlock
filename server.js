@@ -203,7 +203,7 @@ app.post('/events/:id/cancel',isLoggedIn,requireRole('volunteer'),async(req,res)
         app.get('/login', function(req, res) {
             res.render('login.ejs', { 
             role:req.query.role === 'organization' ? 'organization' : 'volunteer',
-            message:[...req.flash('volunteerMessage'),...req.flash('organizationLoginMessage')]  
+            message:[...req.flash('volunteerLoginMessage'),...req.flash('organizationLoginMessage')]  
             });
         });
 

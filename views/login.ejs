@@ -15,11 +15,6 @@
     <section class="w-full md:w-120 py-20 min-h- [420px]">
      <h1 class="text-2xl font-bold text-center my-6"> <span class="fa fa-sign-in"></span>Volunteer Login </h1>
 
-    <% if (volunteerMessage.length > 0) { %>
-        <div class="mb-4 rounded-lg bg-red-50 border border-red-300 text-red-700"><%=  volunteerMessage %></div>
-    <% } %>
-
-
     <!-- LOGIN FORM -->
      <div class="text-2xl font-bold text-center">
     <form action="/login" method="post" id="loginForm" class="space-y-5">
@@ -42,7 +37,7 @@
 
         <h2 class="text-2xl fon-bold">Volunteer Login</h2>
 
-        <% if (message.length > 0) { 5>
+        <% if (message.length > 0) { %>
             <div class="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-red-700"><%= message %></div>
             <% } %>
 
