@@ -201,23 +201,33 @@ app.post('/events/:id/cancel',isLoggedIn,requireRole('volunteer'),async(req,res)
         // LOGIN ===============================
         // show the login form
         app.get('/login', function(req, res) {
-            res.render('login.ejs', { 'volunteerMessage':req.flash ('volunteerLoginMessage'),
-            'organizationMessage':req.flash('organizationLoginMessage')  
+            res.render('login.ejs', { 
+            role:req.query.role === 'organization' ? 'organization' : 'volunteer',
+            message:[...req.flash('volunteerMessage'),...req.flash('organizationLoginMessage')]  
             });
         });
 
         // process the login form
-        app.post('/login/volunteer', passport.authenticate('volunteer-login', {
-            successRedirect : '/volunteer', // redirect to the secure profile section
-            failureRedirect : '/login', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
+        app.post('/login',(req,res,next) => {
+            const role = req.body.role === 'organization' ? 'organization' : 'volunteer'
+            passport.authenticate(`${role}-login`,{
+            successRedirect : '/portal', // redirect to the secure profile section
+            failureRedirect : `/login?role=${role}`, // redirect back to the signup page if there is an error
+            failureFlash:true,
+         })(req,res,next);
+        })
 
-        app.post('/login/organization', passport.authenticate('organization-login', {
-            successRedirect : '/organization', // redirect to the secure profile section
-            failureRedirect : '/login', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
+        // app.post('/login/volunteer', passport.authenticate('volunteer-login', {
+        //     successRedirect : '/volunteer', // redirect to the secure profile section
+        //     failureRedirect : '/login', // redirect back to the signup page if there is an error
+        //     failureFlash : true // allow flash messages
+        // }));
+
+        // app.post('/login/organization', passport.authenticate('organization-login', {
+        //     successRedirect : '/organization', // redirect to the secure profile section
+        //     failureRedirect : '/login', // redirect back to the signup page if there is an error
+        //     failureFlash : true // allow flash messages
+        // }));
 
         // SIGNUP =================================
         // show the signup form

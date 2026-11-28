@@ -22,47 +22,45 @@
 
     <!-- LOGIN FORM -->
      <div class="text-2xl font-bold text-center">
-    <form action="/login/volunteer" method="post">
-        <div class="form-group">
-            <label for="volunteerEmail" class="block text-500 font-semibold mb-1">Email:</label>
-            <input type="email" name ="email" required class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        </div>
-        <div class="form-group">
-            <label for="volunteerPass" class="block text-500 font-semibold mb-1">Password:</label>
-            <input type="password" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password" required>
+    <form action="/login" method="post" id="loginForm" class="space-y-5">
+        <fieldset class="flex gap-1 rounded-xl bg-slate-100 p-1">
+            <span>Logging in as </span>
+            <label class="flex-1">
+                <input type="radio" name="role" value="volunteer">
+                <%= role === 'volunteer' ? 'checked' : '' %>>
+                <span class="block cursor-pointer rounded-lg py-3 text-center font-bold text-slate-600 peer-checked:bg-white peer-checked:text-[#1F4E79] PEER-CHECKED:SHADOW peer-focus-visible:ring-2 peer-focus-visible:ring-[#1F4E79]">
+                    Volunteer
+                        </span>
+            </label>
+            <label class="flex-1">
+                <input type="radio" name="role" value="volunteer">
+                <%= role === 'organization' ? 'checked' : '' %>>
+                <span class="block cursor-pointer rounded-lg py-3 text-center font-bold text-slate-600 peer-checked:bg-white peer-checked:text-[#1F4E79] PEER-CHECKED:SHADOW peer-focus-visible:ring-2 peer-focus-visible:ring-[#1F4E79]">
+                    Organization
+                </span>
+        </fieldset>
+
+        <h2 class="text-2xl fon-bold">Volunteer Login</h2>
+
+        <% if (message.length > 0) { 5>
+            <div class="rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-red-700"><%= message %></div>
+            <% } %>
+
+        <div>
+            <label for="email" class="block font-semibold mb-1">Email</label>
+            <input type="email" name="email" required class="w-full rounded-lg border px-3 py-3">
         </div>
 
-        <button type="submit" class=" btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700" >Login</button>
+        <div>
+            <label for="password" class="block font-semibold mb-1">Password</label>
+            <input type="password" name="password" required class="w-full rounded-lg border px-3 py-3">
+        </div>
+
+        <button type="submit" class=" btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700">Login</button>
     </form>
 </section>
 </div>
 </div>
-<section class="w-full md:w-120 py-20 min-h- [420px]">
-  <h2 class="text-2xl font-bold text-center my-6"> Organization Login</h2>
-     <!-- <h1><span class="fa fa-sign-in"></span> MyBlock Login</h1> -->
-
-    <% if (organizationMessage.length > 0) { %>
-        <div class="mb-4 rounded-lg bg-red-50 border border-red-300 text-red-700"><%= organizationMessage %></div>
-    <% } %>
-
-    <!-- LOGIN FORM -->
-          <div class="text-2xl font-bold text-center">
-
-    <form action="/login/organization" method="post">
-        <div class="form-group">
-            <label for="orgEmail" class="block text-500 font-semibold mb-1">Email:</label>
-            <input  type="email" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="email" required>
-        </div>
-        <div class="form-group">
-            <label for="orgPassword" class="block text-500 font-semibold mb-1">Password:</label>
-            <input  type="password" class="form-control mt-1 w-full max-w-md rounded-lg px-3 py-2 bg-white/80 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" name="password" required>
-        </div>
-
-<button type="submit" class="btn btn-warning btn-lg rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700" >Login</button>
-
-</form>
-</div>
-</section>
 </main>
 <div class="text-center mt-8 space-y-1">
     <div class="border-t pt-8 flex flex-col items-center gap-4 text-center">
@@ -74,5 +72,18 @@
 
 </div>
 </div>
+<script>
+    const form = document.getElementById('loginForm')
+    const title = document.getElementById('loginTitle')
+    const button = document.getElementById('loginButton')
+
+    function updateLogin(){
+        const role = form.querySelector('input[name = role]: checked').value 
+        const isOrg = role === 'organization'
+        title.textContent = isOrg ? 'Organization Login' : 'Volunteer Login'
+    }
+    form.addEventListener('change',updateLogin)
+    updateLogin()
+</script>
 </body>
 </html>

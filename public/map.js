@@ -22,7 +22,7 @@ window.focusEvent = focusEvent
 async function getMap(){
   const map =new google.maps.Map(document.getElementById('map'),{
 center: { lat:40.7282, lng: -73.7949},//Queens location
-zoom:11,
+zoom:12,
 mapTypeControl:false,
 streetViewControl:false,
 
@@ -44,7 +44,7 @@ streetViewControl:false,
         title:p.name,
         icon: {
           fillColor:color[p.type]||color.other,
-          scale:8, //size
+          scale:6, //size
           fillOpacity:1,
           strokeColor:'white',
           path:google.maps.SymbolPath.CIRCLE // shape
@@ -79,11 +79,11 @@ streetViewControl:false,
       zIndex:999,
       icon:{
         path:google.maps.SymbolPath.CIRCLE,
-        scale:11,
+        scale:5,
         fillColor: '#e11d48',
         fillOpacity:1,
         strokeColor: "#facc15",
-        strokeWeight:3,
+        strokeWeight:2,
 
 
       }
